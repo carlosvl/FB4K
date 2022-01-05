@@ -9,7 +9,7 @@
     var j$ = jQuery.noConflict();
 
     j$(function() {
-        j$("#dlgSignUp").dialog({modal: true, autoOpen: false, draggable: true, width: 700 });
+        j$("#dlgSignUp").dialog({modal: true, autoOpen: false, draggable: true, width: 400 });
     });
     
     function OpenSignUpDlg(JobId, ShiftId, JobName, ShiftName) {
@@ -127,17 +127,6 @@
 
                 <apex:outputLabel value="Zip Code *" for="txtzip" />
                 <apex:inputField value="{!contact.MailingPostalCode}" id="txtzip" required="true" styleClass="cssInputFields" />
-                
-                <apex:outputLabel value="Coming with a group *" for="picklistgroup" />
-                <apex:inputField value="{!contact.Group__c}" id="picklistgroup" required="true" styleClass="cssInputFields">                
-                <apex:actionSupport event="onchange" reRender="dlgSignUp"/>
-                </apex:inputField>
-
-                <apex:outputLabel value="Group *" for="txtgroup" rendered="{!contact.Group__c == 'No'}"/>
-                <apex:inputField value="{!contact.GW_Volunteers__Volunteer_Organization__c}" id="txtgroup" required="true" styleClass="cssInputFields" rendered="{!contact.Group__c == 'No'}"/>                
-
-                <apex:outputLabel value="Skill *" for="txtskill" />
-                <apex:inputField value="{!contact.GW_Volunteers__Volunteer_Skills__c}" id="txtskill" required="true" styleClass="cssInputFields" />         
                 
                 <!-- the controller assumes the Department text field holds the Organization (Account) name -->
                 <!-- <apex:outputLabel value="Organization" for="txtOrg" /> -->
