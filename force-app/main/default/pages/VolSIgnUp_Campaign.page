@@ -1,0 +1,72 @@
+<apex:page id="iFrame-Demo" showHeader="false" docType="html-5.0" lightningStyleSheets="true" sidebar="false" standardStylesheets="false">
+    <html>
+
+    <head>
+        <apex:includeLightning />
+        <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+        <style>
+            body {
+                background: #efefef !important;
+                color: #333;
+            }
+        </style>
+        <script type='text/javascript' src='https://fb4kmn.org/wp-content/plugins/lightning-flow-iframe/js/iframeResizer.contentWindow.min.js' id='iframe-resizer'></script>
+    </head>
+
+    <body class="slds-scope">
+        <div id="flowContainer" />
+            <script>
+                var statusChange = function(event) {
+                    if (event.getParam("status") === "FINISHED") {
+                        // Control what happens when the interview finishes
+                        var url = "{!$CurrentPage.parameters.endUrl}"; //capture value entered in shortcode
+
+                        //check if any value was given for endurl
+                        if (url.length > 1) {
+                            window.parent.location.href = url; //redirect to endUrl
+                        }
+                        var outputVariables = event.getParam("outputVariables");
+                        var key;
+                        for (key in outputVariables) {
+                            if (outputVariables[key].name === "myOutput") {
+                                // Do something with an output variable
+                            }
+                        }
+                    }
+                };
+                $Lightning.use("c:FlowOutApp", function() {
+                    // Create the flow component and set the onstatuschange attribute
+                    $Lightning.createComponent("lightning:flow", {
+                            "onstatuschange": statusChange
+                        },
+                        "flowContainer",
+                        function(component) {
+                            // Set the input variables
+                            var inputVariables = [{
+                                name: 'VarCampaignID',
+                                type: 'String',
+                                value: '{!$CurrentPage.parameters.VarCampaignID}'
+                            }];
+                            ///////////
+                            let height;
+                            var checkExist = setInterval(function() {
+                                height = document.body.scrollHeight;
+                                window.parent.postMessage({
+                                    frameHeight: height
+                                }, '*');
+                                console.log(height);
+                            }, 500); // check every 500ms
+                            ///////////
+                            // Start an interview in the flowContainer div, and
+                            // initializes the input variables.
+                            component.startFlow("VolSIgnUp_Campaign", inputVariables);
+
+                        }
+                    );
+                });
+            </script>
+
+    </body>
+
+    </html>
+</apex:page>
