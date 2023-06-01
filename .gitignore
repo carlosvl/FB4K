@@ -25,3 +25,4 @@ hs_err_pid*
 .sfdx
 .sfdx/indexes/lwc/custom-components.json
 .DS_Store
+.sf/config.json
