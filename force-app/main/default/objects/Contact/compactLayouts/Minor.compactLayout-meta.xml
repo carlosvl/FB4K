@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CompactLayout xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Minor</fullName>
+    <fields>Name</fields>
+    <fields>Gender__c</fields>
+    <fields>Grade__c</fields>
+    <fields>Waiver_signed__c</fields>
+    <label>Minor</label>
+</CompactLayout>

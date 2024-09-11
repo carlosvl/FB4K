@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>GW_Volunteers__Volunteer_Skills__c</fullName>
+    <deprecated>false</deprecated>
+    <externalId>false</externalId>
+    <inlineHelpText>Select the skill(s) this contact has that should be used to find volunteer jobs.</inlineHelpText>
+    <label>Volunteer Skills</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <type>MultiselectPicklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>true</sorted>
+            <value>
+                <fullName>Adjust Bike Derailleurs</fullName>
+                <default>false</default>
+                <label>Adjust Bike Derailleurs</label>
+            </value>
+            <value>
+                <fullName>Adjust Bottom Bike Brackets</fullName>
+                <default>false</default>
+                <label>Adjust Bottom Bike Brackets</label>
+            </value>
+            <value>
+                <fullName>Apply Computer Skills</fullName>
+                <default>false</default>
+                <label>Apply Computer Skills</label>
+            </value>
+            <value>
+                <fullName>Change Bike Tires/Tubes</fullName>
+                <default>false</default>
+                <label>Change Bike Tires/Tubes</label>
+            </value>
+            <value>
+                <fullName>Clean and Shine Bikes</fullName>
+                <default>false</default>
+                <label>Clean and Shine Bikes</label>
+            </value>
+            <value>
+                <fullName>Greet Volunteers</fullName>
+                <default>false</default>
+                <label>Greet Volunteers</label>
+            </value>
+            <value>
+                <fullName>Load/Unload Trucks</fullName>
+                <default>false</default>
+                <label>Load/Unload Trucks</label>
+            </value>
+            <value>
+                <fullName>Move Bikes</fullName>
+                <default>false</default>
+                <label>Move Bikes</label>
+            </value>
+            <value>
+                <fullName>Replace Seats/Pedals/Grips</fullName>
+                <default>false</default>
+                <label>Replace Seats/Pedals/Grips</label>
+            </value>
+            <value>
+                <fullName>True Wheels</fullName>
+                <default>false</default>
+                <label>True Wheels</label>
+            </value>
+            <value>
+                <fullName>Volunteer From Home</fullName>
+                <default>false</default>
+                <label>Volunteer From Home</label>
+            </value>
+            <value>
+                <fullName>Work Offsite Bike Events</fullName>
+                <default>false</default>
+                <label>Work Offsite Bike Events</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+    <visibleLines>8</visibleLines>
+</CustomField>

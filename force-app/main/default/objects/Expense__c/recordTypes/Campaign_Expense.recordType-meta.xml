@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RecordType xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Campaign_Expense</fullName>
+    <active>true</active>
+    <description>Campaign Expense</description>
+    <label>Campaign Expense</label>
+    <picklistValues>
+        <picklist>Class__c</picklist>
+        <values>
+            <fullName>MN Fundraising%2FMarketing</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>MN Management %26 General</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>MN Program</fullName>
+            <default>true</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Job__c</picklist>
+        <values>
+            <fullName>5101 Bicycles</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>5102 Helmets</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>5103 Bike Parts</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>5104 Bike Tools</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>5105 Bike Refurbish Supplies</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>5201 Program Consultant</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>5202 Volunteer Food and Bev Program</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>5203 Volunteer Appreciation</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>5205 Volunteer Materials</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>5301 Program Event Printing</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>5302 Event supplies and Materials</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>5303 Event Transportation Costs</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>5304 Event Travel</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>5305 Event Video%2FPhoto</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>5401 Donated Occupancy Related Expenses</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>5402 Storage and Transportation</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>5403 Utilities</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>5404 WHSE Supplies</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>6001 Marketing and Advertising</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>6002 Consultants Fundraising%2FMarketing</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>6003 Food and Beverages - Fundraising</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>6004 Online Donation Platform</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>6005 Raffle %2F Auction Expenses</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>6006 Video%2FPhotography Services</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>6007 Website Development%2FHosting</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>7001 Bank Charges</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>7002 Dues %26 Subscriptions</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>7003 Insurance</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>7004 Meals - Mgmt and General</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>7005 Office Expenses</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>7006 Postage and Shipping</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>7007 Printing - Mgmt and General</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>7008 Professional Services</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>7009 Travel - Mgmt and General</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>8001 Wages</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>8002 Social Security Taxes</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>8003 Medicare Taxes</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>8004 Unemployment Tax</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>8005 Health Insurance</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>8006 Payroll Service Fees</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>8007 Workers Compensation Insurance</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Method_of_Payment__c</picklist>
+        <values>
+            <fullName>ACH</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>BWB CC</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Cash</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Issued Check %28Tia%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Requested Bookkeeping to remit pmt</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Recurrence__c</picklist>
+        <values>
+            <fullName>Annually</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Monthly</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+</RecordType>

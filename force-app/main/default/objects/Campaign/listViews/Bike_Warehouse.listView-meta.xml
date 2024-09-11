@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Bike_Warehouse</fullName>
+    <columns>CAMPAIGN.NAME</columns>
+    <columns>CAMPAIGN.START_DATE</columns>
+    <columns>CAMPAIGN.END_DATE</columns>
+    <columns>CAMPAIGN.CAMPAIGN_TYPE</columns>
+    <columns>CAMPAIGN.STATUS</columns>
+    <columns>GW_Volunteers__Number_of_Volunteers__c</columns>
+    <columns>GW_Volunteers__Volunteer_Completed_Hours__c</columns>
+    <columns>GW_Volunteers__Volunteer_Jobs__c</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>CAMPAIGN.NAME</field>
+        <operation>startsWith</operation>
+        <value>Bike Warehouse</value>
+    </filters>
+    <label>Bike Warehouse</label>
+</ListView>
