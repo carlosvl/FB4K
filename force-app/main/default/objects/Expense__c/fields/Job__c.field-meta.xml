@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Job__c</fullName>
+    <externalId>false</externalId>
+    <label>Job</label>
+    <required>true</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>5101 Bicycles</fullName>
+                <default>false</default>
+                <label>5101 Bicycles</label>
+            </value>
+            <value>
+                <fullName>5102 Helmets</fullName>
+                <default>false</default>
+                <label>5102 Helmets</label>
+            </value>
+            <value>
+                <fullName>5103 Bike Parts</fullName>
+                <default>false</default>
+                <label>5103 Bike Parts</label>
+            </value>
+            <value>
+                <fullName>5104 Bike Tools</fullName>
+                <default>false</default>
+                <label>5104 Bike Tools</label>
+            </value>
+            <value>
+                <fullName>5105 Bike Refurbish Supplies</fullName>
+                <default>false</default>
+                <label>5105 Bike Refurbish Supplies</label>
+            </value>
+            <value>
+                <fullName>5201 Program Consultant</fullName>
+                <default>false</default>
+                <label>5201 Program Consultant</label>
+            </value>
+            <value>
+                <fullName>5202 Volunteer Food and Bev Program</fullName>
+                <default>false</default>
+                <label>5202 Volunteer Food and Bev Program</label>
+            </value>
+            <value>
+                <fullName>5203 Volunteer Appreciation</fullName>
+                <default>false</default>
+                <label>5203 Volunteer Appreciation</label>
+            </value>
+            <value>
+                <fullName>5205 Volunteer Materials</fullName>
+                <default>false</default>
+                <label>5205 Volunteer Materials</label>
+            </value>
+            <value>
+                <fullName>5301 Program Event Printing</fullName>
+                <default>false</default>
+                <label>5301 Program Event Printing</label>
+            </value>
+            <value>
+                <fullName>5302 Event supplies and Materials</fullName>
+                <default>false</default>
+                <label>5302 Event supplies and Materials</label>
+            </value>
+            <value>
+                <fullName>5303 Event Transportation Costs</fullName>
+                <default>false</default>
+                <label>5303 Event Transportation Costs</label>
+            </value>
+            <value>
+                <fullName>5304 Event Travel</fullName>
+                <default>false</default>
+                <label>5304 Event Travel</label>
+            </value>
+            <value>
+                <fullName>5305 Event Video/Photo</fullName>
+                <default>false</default>
+                <label>5305 Event Video/Photo</label>
+            </value>
+            <value>
+                <fullName>5401 Donated Occupancy Related Expenses</fullName>
+                <default>false</default>
+                <label>5401 Donated Occupancy Related Expenses</label>
+            </value>
+            <value>
+                <fullName>5402 Storage and Transportation</fullName>
+                <default>false</default>
+                <label>5402 Storage and Transportation</label>
+            </value>
+            <value>
+                <fullName>5403 Utilities</fullName>
+                <default>false</default>
+                <label>5403 Utilities</label>
+            </value>
+            <value>
+                <fullName>5404 WHSE Supplies</fullName>
+                <default>false</default>
+                <label>5404 WHSE Supplies</label>
+            </value>
+            <value>
+                <fullName>6001 Marketing and Advertising</fullName>
+                <default>false</default>
+                <label>6001 Marketing and Advertising</label>
+            </value>
+            <value>
+                <fullName>6002 Consultants Fundraising/Marketing</fullName>
+                <default>false</default>
+                <label>6002 Consultants Fundraising/Marketing</label>
+            </value>
+            <value>
+                <fullName>6003 Food and Beverages - Fundraising</fullName>
+                <default>false</default>
+                <label>6003 Food and Beverages - Fundraising</label>
+            </value>
+            <value>
+                <fullName>6004 Online Donation Platform</fullName>
+                <default>false</default>
+                <label>6004 Online Donation Platform</label>
+            </value>
+            <value>
+                <fullName>6005 Raffle / Auction Expenses</fullName>
+                <default>false</default>
+                <label>6005 Raffle / Auction Expenses</label>
+            </value>
+            <value>
+                <fullName>6006 Video/Photography Services</fullName>
+                <default>false</default>
+                <label>6006 Video/Photography Services</label>
+            </value>
+            <value>
+                <fullName>6007 Website Development/Hosting</fullName>
+                <default>false</default>
+                <label>6007 Website Development/Hosting</label>
+            </value>
+            <value>
+                <fullName>7001 Bank Charges</fullName>
+                <default>false</default>
+                <label>7001 Bank Charges</label>
+            </value>
+            <value>
+                <fullName>7002 Dues &amp; Subscriptions</fullName>
+                <default>false</default>
+                <label>7002 Dues &amp; Subscriptions</label>
+            </value>
+            <value>
+                <fullName>7003 Insurance</fullName>
+                <default>false</default>
+                <label>7003 Insurance</label>
+            </value>
+            <value>
+                <fullName>7004 Meals - Mgmt and General</fullName>
+                <default>false</default>
+                <label>7004 Meals - Mgmt and General</label>
+            </value>
+            <value>
+                <fullName>7005 Office Expenses</fullName>
+                <default>false</default>
+                <label>7005 Office Expenses</label>
+            </value>
+            <value>
+                <fullName>7006 Postage and Shipping</fullName>
+                <default>false</default>
+                <label>7006 Postage and Shipping</label>
+            </value>
+            <value>
+                <fullName>7007 Printing - Mgmt and General</fullName>
+                <default>false</default>
+                <label>7007 Printing - Mgmt and General</label>
+            </value>
+            <value>
+                <fullName>7008 Professional Services</fullName>
+                <default>false</default>
+                <label>7008 Professional Services</label>
+            </value>
+            <value>
+                <fullName>7009 Travel - Mgmt and General</fullName>
+                <default>false</default>
+                <label>7009 Travel - Mgmt and General</label>
+            </value>
+            <value>
+                <fullName>8001 Wages</fullName>
+                <default>false</default>
+                <label>8001 Wages</label>
+            </value>
+            <value>
+                <fullName>8002 Social Security Taxes</fullName>
+                <default>false</default>
+                <label>8002 Social Security Taxes</label>
+            </value>
+            <value>
+                <fullName>8003 Medicare Taxes</fullName>
+                <default>false</default>
+                <label>8003 Medicare Taxes</label>
+            </value>
+            <value>
+                <fullName>8004 Unemployment Tax</fullName>
+                <default>false</default>
+                <label>8004 Unemployment Tax</label>
+            </value>
+            <value>
+                <fullName>8005 Health Insurance</fullName>
+                <default>false</default>
+                <label>8005 Health Insurance</label>
+            </value>
+            <value>
+                <fullName>8006 Payroll Service Fees</fullName>
+                <default>false</default>
+                <label>8006 Payroll Service Fees</label>
+            </value>
+            <value>
+                <fullName>8007 Workers Compensation Insurance</fullName>
+                <default>false</default>
+                <label>8007 Workers Compensation Insurance</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

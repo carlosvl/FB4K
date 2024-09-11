@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>npe01__Lifetime_Giving_History_Amount__c</fullName>
+    <deprecated>false</deprecated>
+    <description>Formula:  The Lifetime Donation Amount of the Account where this Contact is the One to One Contact.  This field has been superseded by the &apos;Total Amount&apos; field in the Households package.</description>
+    <externalId>false</externalId>
+    <formula>IF( Account.npe01__One2OneContact__c = Id ,
+Account.npe01__LifetimeDonationHistory_Amount__c,
+null
+)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <inlineHelpText>WARNING- This field may not accurately reflect donation histories. Please use the Total Amount field on the Contact record instead.</inlineHelpText>
+    <label>Lifetime Transaction Total</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>2</scale>
+    <type>Currency</type>
+</CustomField>
