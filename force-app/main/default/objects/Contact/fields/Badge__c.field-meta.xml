@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Badge__c</fullName>
+    <externalId>false</externalId>
+    <formula>IMAGE(
+Case ( BadgeLevel__c ,
+0,&quot;&quot;,
+1,&quot;https://sforce.co/3gHzn02&quot;,
+2,&quot;https://sforce.co/3vx7ddB&quot;,
+3,&quot;https://sforce.co/2TAf7Wo&quot;,
+4,&quot;https://sforce.co/35pTqLv&quot;,
+5,&quot;https://sforce.co/2UaLRG6&quot;,
+6,&quot;https://sforce.co/2SCHva8&quot;,
+7,&quot;https://sforce.co/3gvZ2dc&quot;,
+&quot;https://sforce.co/3gHzn02&quot;),
+&quot;&quot;
+)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Badge</label>
+    <required>false</required>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

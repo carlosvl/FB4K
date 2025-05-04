@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>BadgeLevel__c</fullName>
+    <externalId>false</externalId>
+    <formula>if(AND(GW_Volunteers__Volunteer_Hours__c &gt;=6,GW_Volunteers__Volunteer_Hours__c &lt;15), 1,
+   if(AND(GW_Volunteers__Volunteer_Hours__c &gt;=15 , GW_Volunteers__Volunteer_Hours__c &lt;30), 2,
+      if(AND(GW_Volunteers__Volunteer_Hours__c &gt;=30 , GW_Volunteers__Volunteer_Hours__c &lt;60), 3,
+         if(AND(GW_Volunteers__Volunteer_Hours__c &gt;=60 , GW_Volunteers__Volunteer_Hours__c &lt;100), 4,
+            if(AND(GW_Volunteers__Volunteer_Hours__c &gt;=100 , GW_Volunteers__Volunteer_Hours__c &lt;150), 5,
+               if(AND(GW_Volunteers__Volunteer_Hours__c &gt;=150 , GW_Volunteers__Volunteer_Hours__c &lt;210), 6,
+                  if(GW_Volunteers__Volunteer_Hours__c &gt;=210, 7,0)
+                  )
+               )
+            )
+         )
+      )
+   )</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Badge Level</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>0</scale>
+    <type>Number</type>
+    <unique>false</unique>
+</CustomField>
