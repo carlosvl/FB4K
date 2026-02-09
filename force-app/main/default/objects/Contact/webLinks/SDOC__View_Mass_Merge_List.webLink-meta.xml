@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<WebLink xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>SDOC__View_Mass_Merge_List</fullName>
+    <availability>online</availability>
+    <description>To create Add to Mass Merge List button for Contact, follow the S-Docs documentation titled &quot;Mass Merge &amp; Batch Document Feature&quot;. Note: for Contact specifically, be sure to use the API Name: Add_Contact_to_Mass_Merge_List</description>
+    <displayType>massActionButton</displayType>
+    <height>600</height>
+    <linkType>page</linkType>
+    <masterLabel>Deprecated: Not For Use</masterLabel>
+    <openType>sidebar</openType>
+    <page>SDOC__SDJobContact</page>
+    <protected>false</protected>
+    <requireRowSelection>true</requireRowSelection>
+</WebLink>

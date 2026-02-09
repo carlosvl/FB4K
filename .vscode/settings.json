@@ -2,5 +2,8 @@
     "workbench.colorCustomizations": {
         "statusBar.background": null,
         "activityBar.background": null
-    }
+    },
+    "xml.preferences.showSchemaDocumentationType": "none",
+    "salesforcedx-vscode-core.telemetry.enabled": false,
+    "salesforcedx-vscode-core.push-or-deploy-on-save.enabled": false
 }
