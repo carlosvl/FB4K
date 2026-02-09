@@ -28,3 +28,18 @@ hs_err_pid*
 
 # Node.js
 node_modules/
+
+# Python / Data Migration
+data/
+data/files/
+*.db
+*.sqlite
+*.sqlite3
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+venv/
+env/
+ENV/
