@@ -2,5 +2,22 @@
     "workbench.colorCustomizations": {
         "statusBar.background": null,
         "activityBar.background": null
-    }
+    },
+    "files.exclude": {
+        "**/.git": true,
+        "**/.DS_Store": true,
+        "**/node_modules": true,
+        "**/.sfdx": true,
+        "**/.sf": true,
+        "**/.husky": true
+    },
+    "files.watcherExclude": {
+        "**/.git/objects/**": true,
+        "**/.git/subtree-cache/**": true,
+        "**/node_modules/**": true,
+        "**/.sfdx/**": true,
+        "**/.sf/**": true,
+        "**/.husky/**": true
+    },
+    "explorer.excludeGitIgnore": true
 }
