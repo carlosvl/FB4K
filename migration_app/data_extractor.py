@@ -62,7 +62,21 @@ class DataExtractor:
         """
         describe = self.sf_client.describe_object(org_alias, object_name)
         if not describe:
-            # Fallback to basic fields if describe fails
+            # Fallback: Use SOQL FIELDS(ALL) to get all fields dynamically
+            # This is more reliable than describe when there are connection issues
+            try:
+                # Try using SOQL FIELDS(ALL) syntax to get all fields
+                soql = f"SELECT FIELDS(ALL) FROM {object_name} LIMIT 1"
+                test_records = self.sf_client.query(org_alias, soql)
+                
+                if test_records and len(test_records) > 0:
+                    # Extract field names from the first record
+                    fields = [key for key in test_records[0].keys() if key != 'attributes']
+                    return fields
+            except Exception as e:
+                pass
+            
+            # Final fallback to basic fields if describe fails
             if object_name == 'Account':
                 return ['Id', 'Name', 'RecordTypeId', 'CreatedDate', 'LastModifiedDate']
             elif object_name == 'Contact':
@@ -74,12 +88,13 @@ class DataExtractor:
         queryable_fields = []
         
         for field in fields:
-            # Include fields that are queryable and accessible
-            # Exclude encrypted fields without view permission, complex formula fields
-            if (field.get('queryable', False) and 
-                field.get('accessable', False) and
-                not field.get('calculated', False)):  # Skip calculated fields that can't be queried directly
-                queryable_fields.append(field['name'])
+            field_name = field.get('name')
+            field_type = field.get('type', '')
+            
+            # Skip compound fields (address, location) and fields that can't be in SELECT
+            # Most fields are queryable by default unless they're special types
+            if field_type not in ['address', 'location'] and field_name:
+                queryable_fields.append(field_name)
         
         # Always ensure Id is included
         if 'Id' not in queryable_fields:
@@ -482,7 +497,7 @@ class DataExtractor:
             id_list = "', '".join(batch_ids)
             
             soql = f"""
-                SELECT Id, ContentDocumentId, VersionNumber, VersionData, Title, FileExtension
+                SELECT Id, ContentDocumentId, VersionNumber, Title, FileExtension
                 FROM ContentVersion
                 WHERE ContentDocumentId IN ('{id_list}')
                 AND IsLatest = true
@@ -497,32 +512,36 @@ class DataExtractor:
         
         # Step 4: Download and save files
         for doc_id, version in content_versions.items():
-            version_data_base64 = version.get('VersionData')
-            if version_data_base64:
-                # Find which entity this file is linked to
-                linked_entity_id = None
-                for link in document_links:
-                    if link.get('ContentDocumentId') == doc_id:
-                        linked_entity_id = link.get('LinkedEntityId')
-                        break
+            version_id = version.get('Id')
+            
+            
+            if version_id:
+                # Download binary data using REST API
+                binary_data = self.sf_client.download_content_version_data(org_alias, version_id)
                 
-                if linked_entity_id:
-                    # Decode and save file
-                    binary_data = decode_base64(version_data_base64)
-                    title = version.get('Title') or content_documents.get(doc_id, {}).get('Title', 'unnamed')
-                    file_ext = version.get('FileExtension') or content_documents.get(doc_id, {}).get('FileExtension', '')
-                    filename = f"{title}{'.' + file_ext if file_ext else ''}"
+                if binary_data:
+                    # Find which entity this file is linked to
+                    linked_entity_id = None
+                    for link in document_links:
+                        if link.get('ContentDocumentId') == doc_id:
+                            linked_entity_id = link.get('LinkedEntityId')
+                            break
                     
-                    file_path = get_file_storage_path(org_alias, linked_entity_type, linked_entity_id, 'files', filename)
-                    save_binary_file(file_path, binary_data)
-                    
-                    version['file_path'] = str(file_path)
-                    all_documents.append({
-                        'document': content_documents.get(doc_id, {}),
-                        'version': version,
-                        'linked_entity_id': linked_entity_id,
-                        'linked_entity_type': linked_entity_type
-                    })
+                    if linked_entity_id:
+                        title = version.get('Title') or content_documents.get(doc_id, {}).get('Title', 'unnamed')
+                        file_ext = version.get('FileExtension') or content_documents.get(doc_id, {}).get('FileExtension', '')
+                        filename = f"{title}{'.' + file_ext if file_ext else ''}"
+                        
+                        file_path = get_file_storage_path(org_alias, linked_entity_type, linked_entity_id, 'files', filename)
+                        save_binary_file(file_path, binary_data)
+                        
+                        version['file_path'] = str(file_path)
+                        all_documents.append({
+                            'document': content_documents.get(doc_id, {}),
+                            'version': version,
+                            'linked_entity_id': linked_entity_id,
+                            'linked_entity_type': linked_entity_type
+                        })
         
         # Store in database
         if content_documents:

@@ -873,6 +873,55 @@ class DatabaseManager:
         row = cursor.fetchone()
         return dict(row) if row else None
     
+    def org_has_data(self, org_source: str) -> bool:
+        """Check if an org has any data in the database.
+        
+        Args:
+            org_source: Source org identifier
+            
+        Returns:
+            True if org has any accounts or contacts
+        """
+        conn = self._get_connection()
+        cursor = conn.cursor()
+        
+        cursor.execute("""
+            SELECT COUNT(*) FROM accounts WHERE org_source = ?
+        """, (org_source,))
+        account_count = cursor.fetchone()[0]
+        
+        cursor.execute("""
+            SELECT COUNT(*) FROM contacts WHERE org_source = ?
+        """, (org_source,))
+        contact_count = cursor.fetchone()[0]
+        
+        return account_count > 0 or contact_count > 0
+    
+    def flush_org_data(self, org_source: str):
+        """Delete all data for a specific org.
+        
+        Args:
+            org_source: Source org identifier
+        """
+        conn = self._get_connection()
+        cursor = conn.cursor()
+        
+        # Delete in order to respect foreign keys
+        cursor.execute("DELETE FROM content_document_links WHERE org_source = ?", (org_source,))
+        cursor.execute("DELETE FROM content_versions WHERE org_source = ?", (org_source,))
+        cursor.execute("DELETE FROM content_documents WHERE org_source = ?", (org_source,))
+        cursor.execute("DELETE FROM attachments WHERE org_source = ?", (org_source,))
+        cursor.execute("DELETE FROM notes WHERE org_source = ?", (org_source,))
+        cursor.execute("DELETE FROM relationships WHERE org_source = ?", (org_source,))
+        cursor.execute("DELETE FROM contacts WHERE org_source = ?", (org_source,))
+        cursor.execute("DELETE FROM accounts WHERE org_source = ?", (org_source,))
+        cursor.execute("DELETE FROM record_types WHERE org_source = ?", (org_source,))
+        cursor.execute("DELETE FROM field_metadata WHERE org_source = ?", (org_source,))
+        cursor.execute("DELETE FROM migration_log WHERE org_source = ?", (org_source,))
+        
+        conn.commit()
+        print(f"Flushed all data for org: {org_source}")
+    
     def close(self):
         """Close database connection."""
         if self.conn:

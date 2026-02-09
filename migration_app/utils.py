@@ -118,4 +118,20 @@ def decode_base64(base64_data: str) -> bytes:
     Returns:
         Binary data
     """
-    return base64.b64decode(base64_data)
+    if base64_data is None:
+        raise ValueError("base64_data cannot be None")
+    
+    # Strip whitespace and handle padding
+    base64_data_clean = base64_data.strip()
+    
+    try:
+        # Add padding if needed
+        missing_padding = len(base64_data_clean) % 4
+        if missing_padding:
+            base64_data_clean += '=' * (4 - missing_padding)
+        
+        result = base64.b64decode(base64_data_clean)
+        
+        return result
+    except Exception as e:
+        raise

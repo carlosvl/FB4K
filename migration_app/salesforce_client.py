@@ -5,6 +5,7 @@ Salesforce client using SFDX authentication
 import subprocess
 import json
 import sys
+import base64
 from typing import Dict, List, Optional, Any
 from simple_salesforce import Salesforce
 from simple_salesforce.exceptions import SalesforceError
@@ -121,19 +122,43 @@ class SalesforceClient:
             return None
         
         try:
-            # Create Salesforce connection using access token
-            sf = Salesforce(
-                instance_url=instance_url,
-                session_id=access_token
-            )
+            # simple-salesforce expects instance_url without protocol or with domain only
+            # SFDX provides full URL like "https://fb4k.my.salesforce.com"
+            # Extract domain from instance URL
+            from urllib.parse import urlparse
+            parsed_url = urlparse(instance_url)
+            domain = parsed_url.netloc or parsed_url.path.split('/')[0]
+            
+            # Create Salesforce connection
+            # Try using instance_url with full URL first (some versions of simple-salesforce expect this)
+            # If that doesn't work, fall back to instance parameter
+            try:
+                sf = Salesforce(
+                    instance_url=instance_url,  # Try full URL first
+                    session_id=access_token
+                )
+                # Test if connection works by checking if sf_instance is set correctly
+                if not hasattr(sf, 'sf_instance') or not sf.sf_instance:
+                    raise AttributeError("sf_instance not set")
+            except Exception:
+                # Fallback: use instance parameter with domain only
+                sf = Salesforce(
+                    instance=domain,
+                    session_id=access_token
+                )
+            
+            # Store full instance URL for direct API calls
+            sf.sf_instance = instance_url.rstrip('/')
+            sf.session_id = access_token
             self.connections[org_alias] = sf
+            
             return sf
         except Exception as e:
             print(f"Error connecting to Salesforce: {e}", file=sys.stderr)
             return None
     
     def query(self, org_alias: str, soql: str) -> Optional[List[Dict[str, Any]]]:
-        """Execute a SOQL query.
+        """Execute a SOQL query using SFDX CLI (bypass simple-salesforce issues).
         
         Args:
             org_alias: Org alias or username
@@ -142,25 +167,45 @@ class SalesforceClient:
         Returns:
             List of records or None if query fails
         """
-        sf = self.connect(org_alias)
-        if not sf:
-            return None
-        
         try:
-            result = sf.query(soql)
-            records = result.get('records', [])
+            result = subprocess.run(
+                ['sf', 'data', 'query', '--query', soql, '--target-org', org_alias, '--json'],
+                capture_output=True,
+                text=True,
+                check=False,
+                timeout=300
+            )
             
-            # Remove 'attributes' key from each record
-            for record in records:
-                record.pop('attributes', None)
+            # Parse JSON output (stderr may contain warnings, which is OK)
+            try:
+                data = json.loads(result.stdout)
+            except json.JSONDecodeError as e:
+                print(f"Error parsing SOQL query JSON: {e}", file=sys.stderr)
+                print(f"stdout: {result.stdout[:500]}", file=sys.stderr)
+                print(f"stderr: {result.stderr[:500]}", file=sys.stderr)
+                return None
             
-            return records
-        except SalesforceError as e:
+            # Check if query was successful (status 0 means success)
+            if data.get('status') == 0:
+                records = data.get('result', {}).get('records', [])
+                # Remove 'attributes' key from each record
+                for record in records:
+                    record.pop('attributes', None)
+                return records
+            else:
+                # Only print error if status is not 0
+                print(f"SOQL query failed: {data.get('message', 'Unknown error')}", file=sys.stderr)
+                return None
+                
+        except subprocess.TimeoutExpired:
+            print(f"SOQL query timeout after 300 seconds", file=sys.stderr)
+            return None
+        except Exception as e:
             print(f"Salesforce query error: {e}", file=sys.stderr)
             return None
     
     def query_all(self, org_alias: str, soql: str) -> Optional[List[Dict[str, Any]]]:
-        """Execute a SOQL query and handle pagination.
+        """Execute a SOQL query and handle pagination using SFDX CLI.
         
         Args:
             org_alias: Org alias or username
@@ -169,34 +214,46 @@ class SalesforceClient:
         Returns:
             List of all records across all pages
         """
-        sf = self.connect(org_alias)
-        if not sf:
-            return None
-        
         try:
-            all_records = []
-            result = sf.query(soql)
+            # SFDX CLI handles pagination automatically
+            result = subprocess.run(
+                ['sf', 'data', 'query', '--query', soql, '--target-org', org_alias, '--json'],
+                capture_output=True,
+                text=True,
+                check=False,
+                timeout=300
+            )
             
-            while True:
-                records = result.get('records', [])
+            # Parse JSON output (stderr may contain warnings, which is OK)
+            try:
+                data = json.loads(result.stdout)
+            except json.JSONDecodeError as e:
+                print(f"Error parsing SOQL query JSON: {e}", file=sys.stderr)
+                print(f"stdout: {result.stdout[:500]}", file=sys.stderr)
+                print(f"stderr: {result.stderr[:500]}", file=sys.stderr)
+                return None
+            
+            # Check if query was successful (status 0 means success)
+            if data.get('status') == 0:
+                records = data.get('result', {}).get('records', [])
                 # Remove 'attributes' key from each record
                 for record in records:
                     record.pop('attributes', None)
-                all_records.extend(records)
+                return records
+            else:
+                # Only print error if status is not 0
+                print(f"SOQL query failed: {data.get('message', 'Unknown error')}", file=sys.stderr)
+                return None
                 
-                # Check if there are more pages
-                if not result.get('done', True):
-                    result = sf.query_more(result['nextRecordsUrl'], True)
-                else:
-                    break
-            
-            return all_records
-        except SalesforceError as e:
+        except subprocess.TimeoutExpired:
+            print(f"SOQL query timeout after 300 seconds", file=sys.stderr)
+            return None
+        except Exception as e:
             print(f"Salesforce query error: {e}", file=sys.stderr)
             return None
     
     def describe_object(self, org_alias: str, object_name: str) -> Optional[Dict[str, Any]]:
-        """Get object metadata/describe information.
+        """Get object metadata/describe information using SFDX directly.
         
         Args:
             org_alias: Org alias or username
@@ -205,28 +262,32 @@ class SalesforceClient:
         Returns:
             Object describe dictionary or None if fails
         """
-        sf = self.connect(org_alias)
-        if not sf:
+        # Get org credentials directly from SFDX (bypass simple-salesforce issues)
+        org_info = self.get_org_info(org_alias)
+        if not org_info:
+            return None
+        
+        access_token = org_info.get('accessToken')
+        instance_url = org_info.get('instanceUrl')
+        
+        if not access_token or not instance_url:
             return None
         
         try:
-            # Use the REST API to get describe
-            # Try to get API version from Salesforce instance, default to latest
-            api_version = getattr(sf, 'sf_version', 'v58.0')
-            if not api_version.startswith('v'):
-                api_version = f"v{api_version}"
+            # Use urllib.request like AMSA tools (proven to work)
+            import urllib.request
+            url = f"{instance_url}/services/data/v59.0/sobjects/{object_name}/describe"
             
-            describe_url = f"/services/data/{api_version}/sobjects/{object_name}/describe"
-            result = sf.restful(describe_url)
+            req = urllib.request.Request(url)
+            req.add_header('Authorization', f'Bearer {access_token}')
+            req.add_header('Content-Type', 'application/json')
+            
+            with urllib.request.urlopen(req, timeout=30) as response:
+                result = json.loads(response.read().decode('utf-8'))
+            
             return result
-        except (SalesforceError, AttributeError) as e:
-            # Fallback: try using the describe method if available
-            try:
-                obj = getattr(sf, object_name)
-                if hasattr(obj, 'describe'):
-                    return obj.describe()
-            except:
-                pass
+            
+        except Exception as e:
             print(f"Error describing object {object_name}: {e}", file=sys.stderr)
             return None
     
@@ -301,3 +362,41 @@ class SalesforceClient:
             print(f"Error bulk creating {object_name} records: {e}", file=sys.stderr)
         
         return results
+    
+    def download_content_version_data(self, org_alias: str, content_version_id: str) -> Optional[bytes]:
+        """Download binary data from ContentVersion using REST API.
+        
+        Args:
+            org_alias: Org alias or username
+            content_version_id: ContentVersion record ID
+            
+        Returns:
+            Binary data or None if download fails
+        """
+        # Get org credentials directly from SFDX (bypass simple-salesforce issues)
+        org_info = self.get_org_info(org_alias)
+        if not org_info:
+            return None
+        
+        access_token = org_info.get('accessToken')
+        instance_url = org_info.get('instanceUrl')
+        
+        if not access_token or not instance_url:
+            return None
+        
+        try:
+            # Use urllib.request like AMSA tools (proven to work)
+            import urllib.request
+            url = f"{instance_url}/services/data/v59.0/sobjects/ContentVersion/{content_version_id}/VersionData"
+            
+            req = urllib.request.Request(url)
+            req.add_header('Authorization', f'Bearer {access_token}')
+            
+            with urllib.request.urlopen(req, timeout=120) as response:
+                binary_data = response.read()
+            
+            return binary_data
+            
+        except Exception as e:
+            print(f"Error downloading ContentVersion data: {e}", file=sys.stderr)
+            return None

@@ -96,6 +96,27 @@ class MigrationApp:
         if not org_alias:
             return
         
+        # Check if org already has data
+        if self.db_manager.org_has_data(org_alias):
+            print(f"\nWarning: Org '{org_alias}' already has data in the database.")
+            print("1. Append - Add new data to existing data")
+            print("2. Flush - Delete existing data and start fresh")
+            
+            try:
+                choice = input("\nEnter selection (1 or 2): ").strip()
+                if choice == '2':
+                    confirm = input(f"Are you sure you want to delete all data for '{org_alias}'? (yes/no): ").strip().lower()
+                    if confirm == 'yes':
+                        self.db_manager.flush_org_data(org_alias)
+                    else:
+                        print("Operation cancelled.")
+                        return
+                elif choice != '1':
+                    print("Invalid selection. Using append mode.")
+            except KeyboardInterrupt:
+                print("\nOperation cancelled.")
+                return
+        
         try:
             accounts = self.data_extractor.extract_accounts(org_alias)
             print(f"\nSuccessfully backed up {len(accounts)} accounts from {org_alias}")
@@ -109,6 +130,27 @@ class MigrationApp:
         
         if not org_alias:
             return
+        
+        # Check if org already has data
+        if self.db_manager.org_has_data(org_alias):
+            print(f"\nWarning: Org '{org_alias}' already has data in the database.")
+            print("1. Append - Add new data to existing data")
+            print("2. Flush - Delete existing data and start fresh")
+            
+            try:
+                choice = input("\nEnter selection (1 or 2): ").strip()
+                if choice == '2':
+                    confirm = input(f"Are you sure you want to delete all data for '{org_alias}'? (yes/no): ").strip().lower()
+                    if confirm == 'yes':
+                        self.db_manager.flush_org_data(org_alias)
+                    else:
+                        print("Operation cancelled.")
+                        return
+                elif choice != '1':
+                    print("Invalid selection. Using append mode.")
+            except KeyboardInterrupt:
+                print("\nOperation cancelled.")
+                return
         
         try:
             contacts = self.data_extractor.extract_contacts(org_alias, auto_fetch_accounts=True)
