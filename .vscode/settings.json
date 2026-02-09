@@ -19,5 +19,6 @@
         "**/.sf/**": true,
         "**/.husky/**": true
     },
-    "explorer.excludeGitIgnore": true
+    "explorer.excludeGitIgnore": true,
+    "xml.preferences.showSchemaDocumentationType": "none"
 }
